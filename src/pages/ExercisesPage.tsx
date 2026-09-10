@@ -50,6 +50,10 @@ export function ExercisesPage() {
   const [difficulties, setDifficulties] = useState<Difficulty[]>([]);
   const [types, setTypes] = useState<QuestionType[]>([]);
   const [search, setSearch] = useState("");
+  // Collapsed by default on mobile so results are reachable without scrolling
+  // past every filter card first; always expanded from lg up (sidebar layout).
+  const [showFilters, setShowFilters] = useState(false);
+  const activeFilterCount = levels.length + topics.length + difficulties.length + types.length;
 
   const filtered = useMemo(
     () => filterQuestions(allQuestions, { levels, topics, difficulties, types, search }),
@@ -65,7 +69,7 @@ export function ExercisesPage() {
 
   return (
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
-      <aside className="space-y-4">
+      <aside className="order-2 space-y-4 lg:order-1">
         <Card>
           <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Recherche</p>
           <input
@@ -73,71 +77,84 @@ export function ExercisesPage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Mot-clé, tag..."
-            className="w-full rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm dark:border-slate-700 dark:bg-slate-900"
+            className="w-full rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
           />
         </Card>
 
-        <Card>
-          <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Niveau</p>
-          <div className="flex flex-wrap gap-1.5">
-            {LEVELS.map((l) => (
-              <button key={l} onClick={() => setLevels(toggleInSet(levels, l))}>
-                <Badge tone={levels.includes(l) ? "brand" : "neutral"}>{LEVEL_LABELS[l]}</Badge>
-              </button>
-            ))}
-          </div>
-        </Card>
+        <button
+          type="button"
+          onClick={() => setShowFilters((s) => !s)}
+          className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 lg:hidden dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+        >
+          <span>
+            Filtres{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+          </span>
+          <span className="text-slate-400">{showFilters ? "▲" : "▼"}</span>
+        </button>
 
-        <Card>
-          <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Thème</p>
-          <div className="flex flex-wrap gap-1.5">
-            {TOPICS.map((t) => (
-              <button key={t} onClick={() => setTopics(toggleInSet(topics, t))}>
-                <Badge tone={topics.includes(t) ? "brand" : "neutral"}>{TOPIC_LABELS[t]}</Badge>
-              </button>
-            ))}
-          </div>
-        </Card>
+        <div className={`space-y-4 ${showFilters ? "block" : "hidden"} lg:block`}>
+          <Card>
+            <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Niveau</p>
+            <div className="flex flex-wrap gap-2">
+              {LEVELS.map((l) => (
+                <button key={l} className="p-1 -m-1" onClick={() => setLevels(toggleInSet(levels, l))}>
+                  <Badge tone={levels.includes(l) ? "brand" : "neutral"}>{LEVEL_LABELS[l]}</Badge>
+                </button>
+              ))}
+            </div>
+          </Card>
 
-        <Card>
-          <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Difficulté</p>
-          <div className="flex flex-wrap gap-1.5">
-            {DIFFICULTIES.map((d) => (
-              <button key={d} onClick={() => setDifficulties(toggleInSet(difficulties, d))}>
-                <Badge tone={difficulties.includes(d) ? "brand" : "neutral"}>{DIFFICULTY_STARS[d]}</Badge>
-              </button>
-            ))}
-          </div>
-        </Card>
+          <Card>
+            <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Thème</p>
+            <div className="flex flex-wrap gap-2">
+              {TOPICS.map((t) => (
+                <button key={t} className="p-1 -m-1" onClick={() => setTopics(toggleInSet(topics, t))}>
+                  <Badge tone={topics.includes(t) ? "brand" : "neutral"}>{TOPIC_LABELS[t]}</Badge>
+                </button>
+              ))}
+            </div>
+          </Card>
 
-        <Card>
-          <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Type de question</p>
-          <div className="flex flex-wrap gap-1.5">
-            {TYPES.map((t) => (
-              <button key={t} onClick={() => setTypes(toggleInSet(types, t))}>
-                <Badge tone={types.includes(t) ? "brand" : "neutral"}>{QUESTION_TYPE_LABELS[t]}</Badge>
-              </button>
-            ))}
-          </div>
-        </Card>
+          <Card>
+            <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Difficulté</p>
+            <div className="flex flex-wrap gap-2">
+              {DIFFICULTIES.map((d) => (
+                <button key={d} className="p-1 -m-1" onClick={() => setDifficulties(toggleInSet(difficulties, d))}>
+                  <Badge tone={difficulties.includes(d) ? "brand" : "neutral"}>{DIFFICULTY_STARS[d]}</Badge>
+                </button>
+              ))}
+            </div>
+          </Card>
 
-        {(levels.length > 0 || topics.length > 0 || difficulties.length > 0 || types.length > 0 || search) && (
-          <button
-            className="text-xs text-slate-400 underline hover:text-slate-600 dark:hover:text-slate-300"
-            onClick={() => {
-              setLevels([]);
-              setTopics([]);
-              setDifficulties([]);
-              setTypes([]);
-              setSearch("");
-            }}
-          >
-            Réinitialiser les filtres
-          </button>
-        )}
+          <Card>
+            <p className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-300">Type de question</p>
+            <div className="flex flex-wrap gap-2">
+              {TYPES.map((t) => (
+                <button key={t} className="p-1 -m-1" onClick={() => setTypes(toggleInSet(types, t))}>
+                  <Badge tone={types.includes(t) ? "brand" : "neutral"}>{QUESTION_TYPE_LABELS[t]}</Badge>
+                </button>
+              ))}
+            </div>
+          </Card>
+
+          {(levels.length > 0 || topics.length > 0 || difficulties.length > 0 || types.length > 0 || search) && (
+            <button
+              className="text-xs text-slate-400 underline hover:text-slate-600 dark:hover:text-slate-300"
+              onClick={() => {
+                setLevels([]);
+                setTopics([]);
+                setDifficulties([]);
+                setTypes([]);
+                setSearch("");
+              }}
+            >
+              Réinitialiser les filtres
+            </button>
+          )}
+        </div>
       </aside>
 
-      <div className="space-y-4">
+      <div className="order-1 space-y-4 lg:order-2">
         <Card className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-slate-600 dark:text-slate-400">
             <strong className="text-slate-900 dark:text-slate-100">{filtered.length}</strong> question(s)

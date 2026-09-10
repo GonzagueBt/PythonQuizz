@@ -123,7 +123,7 @@ export function HomePage() {
           {TOPICS.map((topic) => {
             const count = allQuestions.filter((q) => q.topic === topic).length;
             return (
-              <button key={topic} onClick={() => goToTopic(topic)}>
+              <button key={topic} className="p-1 -m-1" onClick={() => goToTopic(topic)}>
                 <Badge tone="brand">
                   {TOPIC_LABELS[topic]} · {count}
                 </Badge>

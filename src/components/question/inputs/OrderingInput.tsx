@@ -69,7 +69,7 @@ function SortableRow({ itemId, index, label, disabled, onMove, isFirst, isLast, 
         disabled={disabled}
         {...attributes}
         {...listeners}
-        className="flex h-6 w-6 flex-shrink-0 cursor-grab touch-none items-center justify-center rounded text-slate-400 hover:text-slate-600 active:cursor-grabbing disabled:cursor-default disabled:opacity-40 dark:hover:text-slate-200"
+        className="flex h-11 w-11 flex-shrink-0 cursor-grab touch-none items-center justify-center rounded text-xl text-slate-400 hover:text-slate-600 active:cursor-grabbing disabled:cursor-default disabled:opacity-40 dark:hover:text-slate-200"
       >
         ⠿
       </button>
@@ -77,13 +77,13 @@ function SortableRow({ itemId, index, label, disabled, onMove, isFirst, isLast, 
         {index + 1}
       </span>
       <span className="flex-1">{label}</span>
-      <div className="flex gap-1">
+      <div className="flex gap-1.5">
         <button
           type="button"
           aria-label="Monter"
           disabled={disabled || isFirst}
           onClick={() => onMove(index, -1)}
-          className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-30 dark:border-slate-600"
+          className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 text-sm disabled:opacity-30 dark:border-slate-600"
         >
           ↑
         </button>
@@ -92,7 +92,7 @@ function SortableRow({ itemId, index, label, disabled, onMove, isFirst, isLast, 
           aria-label="Descendre"
           disabled={disabled || isLast}
           onClick={() => onMove(index, 1)}
-          className="rounded border border-slate-300 px-2 py-1 text-xs disabled:opacity-30 dark:border-slate-600"
+          className="flex h-10 w-10 items-center justify-center rounded border border-slate-300 text-sm disabled:opacity-30 dark:border-slate-600"
         >
           ↓
         </button>

@@ -76,7 +76,7 @@ export function QuestionPlayer({
             onClick={onToggleFavorite}
             aria-label="Marquer comme favori"
             title="À revoir"
-            className={favorite ? "text-amber-500" : "text-slate-300 hover:text-amber-400 dark:text-slate-600"}
+            className={`flex h-10 w-10 items-center justify-center rounded-md ${favorite ? "text-amber-500" : "text-slate-300 hover:text-amber-400 dark:text-slate-600"}`}
           >
             ★
           </button>
@@ -85,7 +85,7 @@ export function QuestionPlayer({
             onClick={onToggleDifficult}
             aria-label="Marquer comme difficile"
             title="Marquer difficile"
-            className={`text-sm ${difficult ? "text-red-500" : "text-slate-300 hover:text-red-400 dark:text-slate-600"}`}
+            className={`flex h-10 w-10 items-center justify-center rounded-md text-sm ${difficult ? "text-red-500" : "text-slate-300 hover:text-red-400 dark:text-slate-600"}`}
           >
             🔥
           </button>
