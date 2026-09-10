@@ -42,7 +42,9 @@ npm run build     # build de production dans dist/ (tsc + vite build)
 npm run preview   # sert le build de production localement
 npm test          # lance la suite de tests (vitest)
 npm run test:watch
-npm run lint      # vérification TypeScript (tsc --noEmit)
+npm run typecheck # vérification TypeScript (tsc --noEmit)
+npm run lint      # ESLint (typescript-eslint + react-hooks + react-refresh)
+npm run lint:fix  # ESLint avec correction automatique
 ```
 
 ## Fonctionnalités
@@ -233,14 +235,21 @@ sans configuration serveur supplémentaire sur GitHub Pages.
   à un serveur.
 - **prism-react-renderer / react-markdown** pour la coloration syntaxique et
   le contenu de cours.
+- **Service worker (vite-plugin-pwa / Workbox)** : met en cache l'app elle-même
+  (fonctionne hors-ligne après une première visite) et, séparément, le
+  runtime Pyodide téléchargé depuis jsdelivr (`CacheFirst`, ~180 jours) —
+  le premier exercice de code télécharge Pyodide, tous les suivants (même
+  lors d'une visite ultérieure) le lisent depuis le cache local, sans
+  retélécharger les ~10 Mo.
 
 ## Limites connues
 
 - L'exécution de code nécessite un navigateur supportant les Web Workers
   (tous les navigateurs modernes) ; un message explicite s'affiche sinon.
-- Le premier lancement d'un exercice de code télécharge Pyodide depuis le
-  CDN (quelques Mo, mis en cache par le navigateur ensuite) — un délai de
-  quelques secondes est normal au premier `▶ Exécuter les tests`.
+- Le tout premier lancement d'un exercice de code télécharge Pyodide depuis
+  le CDN (quelques Mo) — un délai de quelques secondes est normal au premier
+  `▶ Exécuter les tests`. Grâce au service worker, ce téléchargement ne se
+  reproduit plus ensuite (même après fermeture de l'onglet).
 - La comparaison de texte/sortie est normalisée mais reste littérale (pas
   d'évaluation sémantique de code arbitraire côté QCM/texte) ; les exercices
   `code-editor` sont le seul type qui exécute réellement le code écrit.

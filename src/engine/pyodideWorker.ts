@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-
 // Classic (non-module) worker on purpose: it lets us use `importScripts` to
 // pull Pyodide from the CDN, and lets us `terminate()` it to hard-stop a
 // runaway user program (e.g. an infinite loop) — something a plain

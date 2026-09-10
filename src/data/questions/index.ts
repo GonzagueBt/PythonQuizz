@@ -33,7 +33,6 @@ if (import.meta.env.DEV) {
   const ids = new Set<string>();
   for (const q of allQuestions) {
     if (ids.has(q.id)) {
-      // eslint-disable-next-line no-console
       console.error(`Duplicate question id detected: ${q.id}`);
     }
     ids.add(q.id);
