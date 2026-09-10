@@ -285,4 +285,31 @@ export const gotchasQuestions: Question[] = [
       { id: "d", text: "Jamais, `datetime.now()` reste une référence non évaluée", correct: false, whyWrong: "L'expression est bien évaluée pour produire une valeur concrète, une seule fois, comme toute valeur par défaut." },
     ],
   },
+  {
+    id: "got-016",
+    type: "ordering",
+    kind: "code-analysis",
+    level: 2,
+    topic: "gotchas",
+    subtopics: ["mutable-defaults"],
+    difficulty: 4,
+    cognitiveLevel: "analyse",
+    tags: ["mutable-default", "chronology"],
+    prompt:
+      "Pour `def f(x, historique=[]): historique.append(x); return historique`, classe ces évènements dans leur ordre CHRONOLOGIQUE réel d'exécution (de `def f...` jusqu'après `f(2)`).",
+    courseId: "gotchas-mutable-defaults",
+    hints: [
+      "La liste par défaut n'est créée qu'une seule fois, bien avant le premier appel.",
+      "Les deux appels successifs réutilisent et modifient le MÊME objet liste.",
+    ],
+    explanation:
+      "1) À la définition de `f` (le `def`), Python évalue `[]` une seule fois et l'attache à la fonction. 2) Au premier appel `f(1)`, cette liste partagée reçoit `1` : elle devient `[1]`. 3) Au second appel `f(2)`, c'est la MÊME liste (déjà `[1]`) qui reçoit `2`. 4) Le résultat final est `[1, 2]`, pas `[2]` comme on pourrait l'attendre naïvement — la liste par défaut n'a jamais été recréée entre les deux appels.",
+    items: [
+      { id: "def", label: "Python évalue [] une seule fois, à la définition de f" },
+      { id: "first", label: "f(1) : la liste partagée devient [1]" },
+      { id: "second", label: "f(2) : la MÊME liste devient [1, 2]" },
+      { id: "result", label: "f(2) retourne [1, 2], pas [2]" },
+    ],
+    correctOrder: ["def", "first", "second", "result"],
+  },
 ];

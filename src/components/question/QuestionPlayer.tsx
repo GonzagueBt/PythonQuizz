@@ -106,6 +106,7 @@ export function QuestionPlayer({
         onDraftChange={setDraft}
         disabled={submitted}
         result={result ?? undefined}
+        examMode={examMode}
       />
 
       {!examMode && !submitted && (

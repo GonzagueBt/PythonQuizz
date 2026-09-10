@@ -23,9 +23,13 @@ interface Props {
   onDraftChange: (draft: Draft) => void;
   disabled: boolean;
   result?: ValidationResult;
+  /** Exam mode never reveals correctness inline — only interaction gets locked on submit. */
+  examMode?: boolean;
 }
 
-export function AnswerInput({ question, draft, onDraftChange, disabled, result }: Props) {
+export function AnswerInput({ question, draft, onDraftChange, disabled, result, examMode = false }: Props) {
+  const reveal = disabled && !examMode;
+
   if (question.type === "multiple-choice" && draft.type === "multiple-choice") {
     return (
       <MultipleChoiceInput
@@ -33,7 +37,7 @@ export function AnswerInput({ question, draft, onDraftChange, disabled, result }
         value={draft.selectedOptionIds}
         onChange={(selectedOptionIds) => onDraftChange({ type: "multiple-choice", selectedOptionIds })}
         disabled={disabled}
-        result={result}
+        result={reveal ? result : undefined}
       />
     );
   }
@@ -44,7 +48,7 @@ export function AnswerInput({ question, draft, onDraftChange, disabled, result }
         value={draft.value}
         onChange={(value) => onDraftChange({ type: "true-false", value })}
         disabled={disabled}
-        correctAnswer={disabled ? question.correct : undefined}
+        correctAnswer={reveal ? question.correct : undefined}
       />
     );
   }
@@ -83,7 +87,7 @@ export function AnswerInput({ question, draft, onDraftChange, disabled, result }
         value={draft.values}
         onChange={(values) => onDraftChange({ type: "fill-code", values })}
         disabled={disabled}
-        revealCorrect={disabled}
+        revealCorrect={reveal}
       />
     );
   }
@@ -95,6 +99,7 @@ export function AnswerInput({ question, draft, onDraftChange, disabled, result }
         value={draft.selection}
         onChange={(selection) => onDraftChange({ type: "matching", selection })}
         disabled={disabled}
+        reveal={reveal}
       />
     );
   }
@@ -106,6 +111,7 @@ export function AnswerInput({ question, draft, onDraftChange, disabled, result }
         value={draft.order}
         onChange={(order) => onDraftChange({ type: "ordering", order })}
         disabled={disabled}
+        reveal={reveal}
       />
     );
   }

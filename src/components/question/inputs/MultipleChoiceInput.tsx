@@ -59,9 +59,9 @@ export function MultipleChoiceInput({ question, value, onChange, disabled, resul
               )}
             </button>
             {feedback && !feedback.isCorrect && feedback.wasSelected && feedback.whyWrong && (
-              <p className="ml-7 mt-1 text-xs text-red-600 dark:text-red-400">
+              <div className="ml-7 mt-1 text-xs text-red-600 dark:text-red-400">
                 <RichText text={feedback.whyWrong} />
-              </p>
+              </div>
             )}
           </div>
         );

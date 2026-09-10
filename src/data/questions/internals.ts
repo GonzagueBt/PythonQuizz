@@ -400,4 +400,26 @@ export const internalsQuestions: Question[] = [
       { id: "d", text: "Le GC générationnel ne concerne que les threads", correct: false, whyWrong: "Le GC générationnel concerne la gestion mémoire des objets, sans rapport direct avec le threading." },
     ],
   },
+  {
+    id: "int-020",
+    type: "matching",
+    kind: "knowledge",
+    level: 4,
+    topic: "internals",
+    subtopics: ["memory", "vocabulary"],
+    difficulty: 3,
+    cognitiveLevel: "comprehension",
+    tags: ["memory", "vocabulary"],
+    prompt: "Associe chaque terme d'implémentation CPython à sa définition.",
+    courseId: "internals-memory-gc",
+    hints: ["Pense au mécanisme précis derrière chaque nom."],
+    explanation:
+      "Le **comptage de références** libère un objet dès que son compteur de références tombe à zéro. Le **ramasse-miettes cyclique** détecte et libère les groupes d'objets qui se référencent mutuellement (invisibles au simple comptage). L'**internement** réutilise le même objet pour des valeurs identiques fréquentes (petits entiers, certaines chaînes). Une **copie superficielle** duplique seulement le premier niveau d'une structure, en partageant les objets imbriqués.",
+    pairs: [
+      { id: "p1", left: "Comptage de références", right: "Libère un objet dès que son compteur atteint zéro" },
+      { id: "p2", left: "Ramasse-miettes cyclique", right: "Détecte et libère les cycles de références" },
+      { id: "p3", left: "Internement", right: "Réutilise le même objet pour des valeurs fréquentes" },
+      { id: "p4", left: "Copie superficielle", right: "Duplique le premier niveau, partage le reste" },
+    ],
+  },
 ];
