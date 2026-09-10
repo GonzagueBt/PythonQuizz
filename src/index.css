@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+}
+
+::selection {
+  @apply bg-brand-400/40;
+}
+
+/* Slim, unobtrusive scrollbars matching the dev-tool aesthetic */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: theme("colors.slate.400") transparent;
+}
+.dark * {
+  scrollbar-color: theme("colors.slate.700") transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: theme("colors.slate.300");
+  border-radius: 9999px;
+}
+.dark *::-webkit-scrollbar-thumb {
+  background-color: theme("colors.slate.700");
+}
+
+.prose-course :where(h2) {
+  @apply mt-6 mb-2 text-lg font-semibold text-slate-900 dark:text-slate-100;
+}
+.prose-course :where(p) {
+  @apply mb-3 leading-relaxed text-slate-700 dark:text-slate-300;
+}
+.prose-course :where(ul) {
+  @apply mb-3 ml-5 list-disc space-y-1 text-slate-700 dark:text-slate-300;
+}
+.prose-course :where(table) {
+  @apply mb-4 w-full border-collapse text-sm;
+}
+.prose-course :where(th, td) {
+  @apply border border-slate-200 px-2 py-1 text-left dark:border-slate-700;
+}
+.prose-course :where(th) {
+  @apply bg-slate-100 font-semibold dark:bg-slate-800;
+}
+.prose-course :where(strong) {
+  @apply font-semibold text-slate-900 dark:text-slate-100;
+}
+.prose-course :where(code) {
+  @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em] text-brand-700 dark:bg-slate-800 dark:text-brand-300;
+}
+
+@keyframes flash-correct {
+  0% { background-color: theme("colors.brand.100"); }
+  100% { background-color: transparent; }
+}
+@keyframes flash-incorrect {
+  0% { background-color: theme("colors.red.100"); }
+  100% { background-color: transparent; }
+}
+.flash-correct {
+  animation: flash-correct 900ms ease-out;
+}
+.flash-incorrect {
+  animation: flash-incorrect 900ms ease-out;
+}
