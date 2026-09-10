@@ -12,16 +12,33 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      // No installable-app manifest (no icon set to maintain) — this PWA setup exists
-      // purely to cache the app shell and Pyodide runtime for fast repeat visits and
-      // offline use, not to be "Add to Home Screen" installable.
-      manifest: false,
       registerType: "autoUpdate",
       injectRegister: "auto",
+      includeAssets: ["favicon.svg", "icons/apple-touch-icon.png"],
+      manifest: {
+        name: "Python Training Lab",
+        short_name: "PyLab",
+        description: "Learn it. Break it. Understand it. — plateforme interactive de révision Python.",
+        lang: "fr",
+        start_url: ".",
+        display: "standalone",
+        background_color: "#0f172a",
+        theme_color: "#0f172a",
+        icons: [
+          { src: "icons/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+          { src: "icons/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+          {
+            src: "icons/maskable-icon-512.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable",
+          },
+        ],
+      },
       workbox: {
         // Precache the built app shell (JS/CSS/HTML) so the app itself loads offline
         // after a first visit.
-        globPatterns: ["**/*.{js,css,html,svg}"],
+        globPatterns: ["**/*.{js,css,html,svg,png}"],
         runtimeCaching: [
           {
             // Pyodide's runtime (~10MB: interpreter + stdlib) is fetched from jsdelivr
